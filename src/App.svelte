@@ -1,47 +1,33 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  // cick count
+  let count = 0
+  $: doubled = count * 2
+
+  $: if (count >= 10) {
+    alert('count is dangerously high!')
+    count = 9
+  }
+
+  const incrementCount = () => count++
+
+  // numbers
+  let numbers = [1, 2, 3, 4]
+
+  const addNumber = () => numbers = [...numbers, numbers.length + 1]
+
+  $: sum = numbers.reduce((t, n) => t + n, 0)
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<!-- click count -->
+<button on:click={incrementCount}>
+  Clicked {count} {count === 1 ? 'time' : 'times'}  
+</button>
 
-  <div class="card">
-    <Counter />
-  </div>
+<p>{count} doubled ist {doubled}</p>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
+<!-- numbers -->
+<p>{numbers.join(' + ')} = {sum}</p>
 
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
-
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
+<button on:click={addNumber}>
+  Add a number
+</button>
